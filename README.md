@@ -1,9 +1,8 @@
 # vault-consul
 
-# TODO
-* Container for consul
-* Container for vault
-* Pod for containers
-* Script do deploy pod
-* Create and deploy TLS certificates for consul
-* Create and deploy TLS certificates for vault and clients
+# Prerequisites
+A running kubernetes instance. For local development, minikube is a good way to go.
+
+# Running Locally
+- Run `bin/run-vault`
+- Once consul is running, run `bin/bootstrap.sh`
