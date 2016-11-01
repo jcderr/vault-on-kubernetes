@@ -1,0 +1,19 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "consul"
+    },
+    "spec": {
+        "selector": {
+            "app": "consul"
+        },
+        "ports": [
+            {
+                "protocol": "TCP",
+                "port": 8400,
+                "targetPort": 8400
+            }
+        ]
+    }
+}
