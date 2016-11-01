@@ -14,6 +14,7 @@ def seed_cluster(pods, ips):
     for pod in pods.split(' '):
         seed_command = ['kubectl', 'exec', pod, '--', 'consul', 'join']
         seed_command.extend(ips.split())
+        print seed_command
         check_call(seed_command)
 
 

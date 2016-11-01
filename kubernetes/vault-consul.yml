@@ -18,6 +18,9 @@ spec:
       env:
       - name: BOOTSTRAP_EXPECT_COUNT
         value: "2"
-      # TODO: ADVERTISE_HOST
+      - name: EXTERNAL_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: status.podIP
 
 #TODO: Add volumes for persistent storage

@@ -1,0 +1,6 @@
+{
+  "data_dir": "/opt/consul-data",
+  "log_level": "DEBUG",
+  "server": true,
+  "ui": true
+}
