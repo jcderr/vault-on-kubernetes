@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vault
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vault
+        app-type: vault
+    spec:
+      containers:
+      - name: vault
+        image: vault
+        args: ["server"]
+        ports:
+          - containerPort: 8200
+        env:
+          - name: VAULT_LOCAL_CONFIG
+            value: '{"backend": {"consul": {"address": "10.0.0.7:8500"}}, "listener": {"tcp":{"address":"0.0.0.0:8200", "tls_disable": 1}}}'
+        securityContext:
+          capabilities:
+            add:
+              - IPC_LOCK
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+  labels:
+    name: vault
+    app-type: vault
+spec:
+  clusterIP: 10.0.0.20
+  type: LoadBalancer
+  ports:
+    - port: 8200
+      protocol: TCP
+      targetPort: 8200
+  selector:
+    app-type: vault
+
+
+
+# apiVersion: v1
+# kind: ReplicationController
+# metadata:
+#   name: vault
+# spec:
+#   replicas: 1
+#   selector:
+#     app: vault
+#   template:
+#     metadata:
+#       name: vault
+#       labels:
+#         app: vault
+#       namespace: default
+#     spec:
+#       containers:
+#         - name: vault
+#           command: ["vault", "server", "-config=/vault/config", "-dev-root-token-id=", "-dev"]
+#           image: vault #TODO: pin version
+#           ports:
+#             - containerPort: 8200
+

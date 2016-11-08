@@ -1,28 +1,52 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  name: consul.2
+  name: consul-2
 spec:
   replicas: 1
-  selector:
-    app: consul
   template:
     metadata:
-      name: consul_2
       labels:
-        app: consul
-      namespace: default
+        app: consul-2
+        app-type: consul
     spec:
       containers:
-        - name: consul
-          command: ["consul", "agent", "-server", "-bootstrap-expect=2", "-config-dir", "/consul/config",  "-data-dir", "/consul/data"]
-          image: consul
-          ports:
-            - containerPort: 8300
-            - containerPort: 8301
-            - containerPort: 8302
-            - containerPort: 8400
-            - containerPort: 8500
-            - containerPort: 8600
+      - name: consul
+        image: consul
+        command: ["consul", "agent", "-server", "-bootstrap-expect=2", "-config-dir", "/consul/config",  "-data-dir", "/consul/data", "-client=0.0.0.0", "-bind=0.0.0.0"]
+        ports:
+          - containerPort: 8300
+          - containerPort: 8301
+          - containerPort: 8302
+          - containerPort: 8400
+          - containerPort: 8500
+          - containerPort: 8600
+        volumeMounts:
+          - name: consul-volume-2
+            mountPath: /consul/data
+      volumes:
+        - name: consul-volume-2
+          hostPath: 
+            path: /data/consul-data-2
+# #TODO: Add volumes for persistent storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-2
+  labels:
+    name: consul-2
+    app-type: consul
+spec:
+  clusterIP: 10.0.0.8
+  type: LoadBalancer
+  ports:
+    - port: 8500
+      protocol: TCP
+      targetPort: 8500
+  selector:
+    app-type: consul
 
-    #TODO: Add volumes for persistent storage
+# -- 
+
+

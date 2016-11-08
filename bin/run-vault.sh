@@ -7,4 +7,5 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 kubectl create -f $DIR/../kubernetes/consul_1.yaml
 kubectl create -f $DIR/../kubernetes/consul_2.yaml
-kubectl create -f $DIR/../kubernetes/consul_svc.yaml
+
+#kubectl create -f $DIR/../kubernetes/vault.yaml

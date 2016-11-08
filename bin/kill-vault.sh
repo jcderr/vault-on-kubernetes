@@ -5,5 +5,10 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . $DIR/utilities.sh
 
-kubectl delete --cascade=false --ignore-not-found=true rc consul.1 consul.2
-kubectl delete --cascade=false --ignore-not-found=true service consul
+kubectl delete --cascade=false --ignore-not-found=true deployment -l "app-type=consul"
+kubectl delete --cascade=false --ignore-not-found=true replicasets -l "app-type=consul"
+kubectl delete --cascade=false --ignore-not-found=true service -l "app-type=consul"
+
+kubectl delete --cascade=false --ignore-not-found=true deployment -l "app-type=vault"
+kubectl delete --cascade=false --ignore-not-found=true replicasets -l "app-type=vault"
+kubectl delete --cascade=false --ignore-not-found=true service -l "app-type=vault"

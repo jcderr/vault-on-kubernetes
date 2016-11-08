@@ -20,7 +20,7 @@ def seed_cluster(pods, ips):
 
 def search_for_pods(json_path):
     return check_output(
-        ["kubectl", "get", "pods", "-l", "app=consul", "-o", "jsonpath=" + json_path]).decode()
+        ["kubectl", "get", "pods", "-l", "app-type=consul", "-o", "jsonpath=" + json_path]).decode()
 
 
 run()
